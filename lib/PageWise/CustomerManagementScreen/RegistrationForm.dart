@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'InputDecoration.dart';
 import 'package:medicalstore/PageWise/CustomerManagementScreen/CustomerManagementScreen.dart';
+import 'package:intl/intl.dart';
+
 
 class RegistrationForm extends StatefulWidget {
   @override
@@ -471,29 +473,30 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   },
                 ),
                 ListTile(
-                  title: Text(
-                    'Date of Birth',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text(
-                    _dob != null ? _dob.toString() : '',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  leading: Icon(Icons.date_range),
-                  onTap: () async {
-                    final selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                    );
-                    if (selectedDate != null) {
-                      setState(() {
-                        _dob = selectedDate;
-                      });
-                    }
-                  },
-                ),
+  title: Text(
+    'Date of Birth',
+    style: TextStyle(fontSize: 16),
+  ),
+  subtitle: Text(
+    _dob != null ? DateFormat('yyyy-MM-dd').format(_dob) : '',
+    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  ),
+  leading: Icon(Icons.date_range),
+  onTap: () async {
+    final currentDate = DateTime.now();
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: _dob ?? currentDate,
+      firstDate: DateTime(1900),
+      lastDate: currentDate,
+    );
+    if (selectedDate != null) {
+      setState(() {
+        _dob = selectedDate;
+      });
+    }
+  },
+),
                 SizedBox(
                   width: 200,
                   height: 50,

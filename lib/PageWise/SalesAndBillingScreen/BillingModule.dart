@@ -169,39 +169,39 @@ class _BillingModuleState extends State<BillingModule> {
               controller: invoiceNumberController,
               decoration: InputDecoration(labelText: 'Invoice/Receipt Number'),
             ),
-            TextFormField(
+TextFormField(
   controller: dateController,
   decoration: InputDecoration(
     labelText: 'Date',
     prefixIcon: Icon(Icons.date_range),
   ),
- onTap: () async {
-  final currentDate = DateTime.now();
-  final selectedDate = await showDatePicker(
-    context: context,
-    initialDate: currentDate,
-    firstDate: DateTime(1900),
-    lastDate: DateTime.now(),
-  );
-  if (selectedDate != null) {
-    final selectedDateTime = await showTimePicker(
+  onTap: () async {
+    final currentDate = DateTime.now();
+    final selectedDate = await showDatePicker(
       context: context,
-      initialTime: TimeOfDay.fromDateTime(currentDate),
+      initialDate: currentDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
-    if (selectedDateTime != null) {
-      setState(() {
-        final dateTime = DateTime(
-          selectedDate.year,
-          selectedDate.month,
-          selectedDate.day,
-          selectedDateTime.hour,
-          selectedDateTime.minute,
-        );
-        dateController.text = DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
-      });
+    if (selectedDate != null) {
+      final selectedDateTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(currentDate),
+      );
+      if (selectedDateTime != null) {
+        setState(() {
+          final dateTime = DateTime(
+            selectedDate.year,
+            selectedDate.month,
+            selectedDate.day,
+            selectedDateTime.hour,
+            selectedDateTime.minute,
+          );
+          dateController.text = DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
+        });
+      }
     }
-  }
-},
+  },
 ),
 TextFormField(
   controller: dueDateController,
