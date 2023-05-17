@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medicalstore/API/Exphandling.dart';
+import 'package:medicalstore/PageWise/CustomerManagementScreen/RegistrationForm.dart';
 
 class ReportingAndAnalyticsScreen extends StatelessWidget {
   @override
@@ -17,11 +19,34 @@ class ReportingAndAnalyticsScreen extends StatelessWidget {
           ),
         ],
       ),
+
       body: Center(
-        child: Text('Reporting And Analytics Screen'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ExpHandling()),
+                );
+              },
+              child: Text('Report Details'),
+            ),
+            SizedBox(height: 16), // Add some spacing between the buttons
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegistrationForm()),
+                );
+              },
+              child: Text('Add Reports'),
+            ),
+          ],
+        ),
       ),
     );
   }
-
- 
 }
+    

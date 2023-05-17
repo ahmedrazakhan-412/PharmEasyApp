@@ -21,7 +21,7 @@ class DashboardModuleCard extends StatelessWidget {
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.pinkAccent.shade200, Colors.teal.shade300],
+              colors: [Colors.greenAccent.shade200, Colors.teal.shade300],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
