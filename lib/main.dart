@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:medicalstore/Dashboard/DashboardScreen.dart';
+import 'package:medicalstore/Login/LoginScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true
       ),
-      home: DashboardScreen(),
+      home: LoginScreen(),
     );
   }
 }
