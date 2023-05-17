@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'DashboardScreen.dart';
+import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 
 void main() {
   runApp(MyApp());

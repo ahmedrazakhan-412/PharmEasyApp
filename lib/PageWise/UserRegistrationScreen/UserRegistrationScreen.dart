@@ -14,7 +14,7 @@ class _FormPageState extends State<UserRegistrationScreen> {
   TextEditingController confirmpassword = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
-void _showCongratulatoryDialog() {
+void _showCongratulatoryDialog(String? name) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -40,7 +40,7 @@ void _showCongratulatoryDialog() {
               ),
               const SizedBox(height: 16.0),
               Text(
-                'Congratulations!',
+                'Congratulations!\n$name',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -219,7 +219,7 @@ void _showCongratulatoryDialog() {
                       if (_formkey.currentState?.validate() ?? false) {
                         _formkey.currentState?.save();
                         print("Successful");
-                        _showCongratulatoryDialog();
+                        _showCongratulatoryDialog(name);
                       } else {
                         print("Unsuccessful");
                       }

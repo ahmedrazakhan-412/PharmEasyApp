@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'DashboardModuleCard.dart';
-import 'ProductCatalogScreen.dart';
-import 'UserRegistrationScreen.dart';
-import 'InventoryManagementScreen.dart';
-import 'SalesAndBillingScreen.dart';
-import 'OrderManagementScreen.dart';
-import 'CustomerManagementScreen.dart';
-import 'PrescriptionManagementScreen.dart';
-import 'ReportingAndAnalyticsScreen.dart';
-import 'AdministrationAndSecurityScreen.dart';
-import 'PaymentGatewaysIntegration.dart';
+import 'package:medicalstore/PageWise/UserRegistrationScreen/UserRegistrationScreen.dart';
+import 'package:medicalstore/PageWise/ProductCatalogScreen/ProductCatalogScreen.dart';
+import 'package:medicalstore/PageWise/InventoryManagementScreen/InventoryManagementScreen.dart';
+import 'package:medicalstore/PageWise/SalesAndBillingScreen/SalesAndBillingScreen.dart';
+import 'package:medicalstore/PageWise/OrderManagementScreen/OrderManagementScreen.dart';
+import 'package:medicalstore/PageWise/CustomerManagementScreen/CustomerManagementScreen.dart';
+import 'package:medicalstore/PageWise/PrescriptionManagementScreen/PrescriptionManagementScreen.dart';
+import 'package:medicalstore/PageWise/ReportingAndAnalyticsScreen/ReportingAndAnalyticsScreen.dart';
+import 'package:medicalstore/PageWise/AdministrationAndSecurityScreen/AdministrationAndSecurityScreen.dart';
+import 'package:medicalstore/PageWise/PaymentGatewaysIntegration/PaymentGatewaysIntegration.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override

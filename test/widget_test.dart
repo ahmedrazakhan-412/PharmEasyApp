@@ -7,8 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:medicalstore/DashboardScreen.dart';
-import 'package:medicalstore/DashboardModuleCard.dart';
+import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 
 void main() {
   testWidgets('DashboardScreen widget test', (WidgetTester tester) async {
