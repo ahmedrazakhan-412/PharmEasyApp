@@ -13,33 +13,35 @@ class DashboardModuleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(8.0),
+      // ),
       child: InkWell(
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          width: 120,
+          height: 120,
+          padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.greenAccent.shade200, Colors.teal.shade300],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(
                 icon,
-                size: 70.0,
+                size: 40.0,
                 color: Colors.black,
               ),
               SizedBox(height: 12.0),
               Text(
                 moduleName,
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 15.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white70,
                 ),

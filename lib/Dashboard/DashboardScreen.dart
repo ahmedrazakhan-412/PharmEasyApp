@@ -15,80 +15,306 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:Center(
-    child:  Text('Medical Store Dashboard'),
+    //   appBar: AppBar(
+    //     title:Center(
+    // child:  Text('Medical Store Dashboard'),
+    //   ),
+    //   ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+        Column(
+        children: [
+        Expanded(
+        child: Container(
+        color: Colors.teal[600],
+          width: 200,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: CircleAvatar(
+                      backgroundImage:
+                      AssetImage('assets/images/profile.png'),
+                      radius: 40
+                  ),),
+                SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                    width: 130,
+                    height: 40,
+                    child: Container(width: 150,
+                      height: 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(onPressed: () {}, icon: Icon(Icons.person,color: Colors.white)),
+                          Text('My Cload',style: TextStyle(fontSize: 12,color: Colors.white))
+                        ],
+                      ),
+                    )
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                    width: 130,
+                    height: 40,
+                    child: Container(width: 150,
+                      height: 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(onPressed: () {}, icon: Icon(Icons.people,color: Colors.white)),
+                          Text('Shared Files',style: TextStyle(fontSize: 12,color: Colors.white))
+                        ],
+                      ),
+                    )
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                    width: 130,
+                    height: 40,
+                    child: Container(width: 150,
+                      height: 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(onPressed: () {}, icon: Icon(Icons.star,color: Colors.white)),
+                          Text('Favorites',style: TextStyle(fontSize: 12,color: Colors.white))
+                        ],
+                      ),
+                    )
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                    width: 130,
+                    height: 40,
+                    child: Container(width: 150,
+                      height: 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(onPressed: () {}, icon: Icon(Icons.cloud_upload,color: Colors.white,)),
+                          Text('Upload Files',style: TextStyle(fontSize: 12,color: Colors.white))
+                        ],
+                      ),
+                    )
+                ),
+                SizedBox(
+                  height: 250,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Settings'),
+                                  //  content: Text('This is a dialog window.'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Close'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(
+                              Icons.settings,color: Colors.white
+                          )),
+                      Text(
+                        'Settings',style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Are you sure you want to logout',style: TextStyle(fontSize: 12)),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('yes'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('No'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(
+                              Icons.logout,color: Colors.white
+                          )),
+                      Text(
+                        'Logout',style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
+      ],
+    ),
+          Column(
+           // mainAxisAlignment: MainAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text("Welcome!",style: TextStyle(fontSize: 30),),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                    child: Container(
+                      height: 500,
+                      width: 600,
+                      child: Image.asset('assets/images/dashboard.jpg'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+            SingleChildScrollView(
+              //scrollDirection: Axis.horizontal,
+              scrollDirection: Axis.vertical,
+              child: Container(
+               // height: 800,
+                width: 200,
+                child: Column(
+                  children: [
+                    _buildModuleCard(
+                      context,
+                      UserRegistrationScreen(),
+                      'User Registration',
+                      Icons.person_add,
+                    ),
+                    _buildModuleCard(
+                      context,
+                      ProductCatalogScreen(),
+                      'Product Catalog',
+                      Icons.shopping_basket,
+                    ),
+                    _buildModuleCard(
+                      context,
+                      InventoryManagementScreen(),
+                      'Inventory Management',
+                      Icons.storage,
+                    ),
+                    _buildModuleCard(
+                      context,
+                      SalesAndBillingScreen(),
+                      'Sales and Billing',
+                      Icons.receipt,
+                    ),
+                    _buildModuleCard(
+                      context,
+                      OrderManagementScreen(),
+                      'Order Management',
+                      Icons.shopping_cart,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Container(
+                    width: 200,
+                    // height: 800,
+                    child: Column(
+                      children: [
+                        _buildModuleCard(
+                          context,
+                          CustomerManagementScreen(),
+                          'Customer Management',
+                          Icons.people,
+                        ),
+                        _buildModuleCard(
+                          context,
+                          PrescriptionManagementScreen(),
+                          'Prescription Management',
+                          Icons.description,
+                        ),
+                        _buildModuleCard(
+                          context,
+                          ReportingAndAnalyticsScreen(),
+                          'Reports',
+                          Icons.bar_chart,
+                        ),
+                        _buildModuleCard(
+                          context,
+                          AdministrationAndSecurityScreen(),
+                          'Administration',
+                          Icons.settings,
+                        ),
+                        _buildModuleCard(
+                          context,
+                          PaymentGatewaysIntegration(),
+                          'Payment',
+                          Icons.attach_money,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+    ],
+        ),
       ),
-      body: GridView.count(
-        crossAxisCount: 8,
-        padding: EdgeInsets.all(16.0),
-        crossAxisSpacing: 16.0,
-        mainAxisSpacing: 16.0,
-        childAspectRatio: 0.7,
-        children: <Widget>[
-          _buildModuleCard(
-            context,
-            UserRegistrationScreen(),
-            'User Registration',
-            Icons.person_add,
-          ),
-          _buildModuleCard(
-            context,
-            ProductCatalogScreen(),
-            'Product Catalog',
-            Icons.shopping_basket,
-          ),
-          _buildModuleCard(
-            context,
-            InventoryManagementScreen(),
-            'Inventory Management',
-            Icons.storage,
-          ),
-          _buildModuleCard(
-            context,
-            SalesAndBillingScreen(),
-            'Sales and Billing',
-            Icons.receipt,
-          ),
-          _buildModuleCard(
-            context,
-            OrderManagementScreen(),
-            'Order Management',
-            Icons.shopping_cart,
-          ),
-          _buildModuleCard(
-            context,
-            CustomerManagementScreen(),
-            'Customer Management',
-            Icons.people,
-          ),
-          _buildModuleCard(
-            context,
-            PrescriptionManagementScreen(),
-            'Prescription Management',
-            Icons.description,
-          ),
-          _buildModuleCard(
-            context,
-            ReportingAndAnalyticsScreen(),
-            'Reports',
-            Icons.bar_chart,
-          ),
-          _buildModuleCard(
-            context,
-            AdministrationAndSecurityScreen(),
-            'Administration',
-            Icons.settings,
-          ),
-          _buildModuleCard(
-            context,
-            PaymentGatewaysIntegration(),
-            'Payment',
-            Icons.attach_money,
-          ),
-        ],
-      ),
+
     );
   }
 

@@ -14,7 +14,7 @@ class RegistrationScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/login.jpeg'), 
+            Image.asset('assets/images/logo.jpeg'),
             SizedBox(height: 20.0),
             TextFormField(
               decoration: InputDecoration(
