@@ -3,13 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:medicalstore/Login/LoginScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:medicalstore/firebase_options.dart';
+import 'package:medicalstore/Login/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

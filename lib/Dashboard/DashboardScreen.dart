@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:medicalstore/Login/UserProvider.dart';
+import 'package:provider/provider.dart';
 import 'DashboardModuleCard.dart';
 import 'package:medicalstore/PageWise/UserRegistrationScreen/UserRegistrationScreen.dart';
 import 'package:medicalstore/PageWise/ProductCatalogScreen/ProductCatalogScreen.dart';
@@ -14,12 +17,10 @@ import 'package:medicalstore/PageWise/PaymentGatewaysIntegration/PaymentGateways
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String userName = Provider.of<UserProvider>(context).userName;
+    String currentDate = DateFormat('MMM dd, yyyy').format(DateTime.now());
+    String currentTime = DateFormat('hh:mm a').format(DateTime.now());
     return Scaffold(
-    //   appBar: AppBar(
-    //     title:Center(
-    // child:  Text('Medical Store Dashboard'),
-    //   ),
-    //   ),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -165,8 +166,9 @@ class DashboardScreen extends StatelessWidget {
                                     ElevatedButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        Navigator.popUntil(context, (route) => route.isFirst);
                                       },
-                                      child: Text('yes'),
+                                      child: Text('Yes'),
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
@@ -202,11 +204,22 @@ class DashboardScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("Welcome!",style: TextStyle(fontSize: 30),),
-                ],
+            Text(
+              'Welcome, $userName',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              '$currentDate $currentTime',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white70,
+              ),
+            ),
+          ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

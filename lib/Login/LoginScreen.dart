@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medicalstore/Login/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -67,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  hintText: 'Username/E-mail',
+                  hintText: 'E-mail',
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                   prefixIcon: Icon(Icons.person),
@@ -112,13 +114,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     userData['password'] == password);
 
                 if (isLoggedIn) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DashboardScreen(),
-                    ),
-                  );
-                } else {
+  String username = userRegistrationData
+      .firstWhere((userData) =>
+          userData['email'] == email && userData['password'] == password)
+      ['name'];
+  Provider.of<UserProvider>(context, listen: false).setUserName(username);
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => DashboardScreen(),
+    ),
+  );
+}
+ else {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
