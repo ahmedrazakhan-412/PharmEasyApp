@@ -1,30 +1,32 @@
-
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class UserRegistrationData extends StatelessWidget {
-
   Future<List<Map<String, dynamic>>> retrieveUserRegistrationData() async {
-  // Get the collection reference
-  CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+    // Get the collection reference
+    CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('EazyMed');
 
-  // Query the collection and retrieve documents
-  QuerySnapshot querySnapshot = await usersCollection.get();
+    // Query the collection and retrieve documents
+    QuerySnapshot querySnapshot = await usersCollection.get();
 
-  // Extract data from documents
-  List<Map<String, dynamic>> userRegistrationData = querySnapshot.docs
-      .map((document) => document.data() as Map<String, dynamic>)
-      .toList();
+    // Extract data from documents
+    List<Map<String, dynamic>> userRegistrationData = [];
 
-  return userRegistrationData;
-}
+    querySnapshot.docs.forEach((document) {
+      userRegistrationData.add(document.data() as Map<String, dynamic>);
+    });
+
+    return userRegistrationData;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Registration Data'),
+        title: Center(
+          child: Text('User Registration Details'),
+        ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: retrieveUserRegistrationData(),
@@ -43,10 +45,22 @@ class UserRegistrationData extends StatelessWidget {
               itemBuilder: (context, index) {
                 // Display user registration data
                 Map<String, dynamic> userData = userRegistrationData[index];
+
                 return ListTile(
-                  title: Text(userData['name']),
-                  subtitle: Text(userData['email']),
-                  // Add more fields as needed
+                  title: Text(
+                    userData['name'],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Email: ${userData['email']}'),
+                      Text('Password: ${userData['password']}'),
+                      Text('Phone: ${userData['phone']}'),
+                    ],
+                  ),
                 );
               },
             );

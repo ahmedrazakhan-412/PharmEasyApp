@@ -7,7 +7,9 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Registration'),
+        title:Center(
+          child: Text('User Registration Details'),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.all(16.0),
