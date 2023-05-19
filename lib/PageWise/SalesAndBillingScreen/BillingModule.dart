@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 
 
 class BillingModule extends StatefulWidget {
@@ -134,7 +135,10 @@ class _BillingModuleState extends State<BillingModule> {
           IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DashboardScreen()),
+                );
             },
           ),
         ],

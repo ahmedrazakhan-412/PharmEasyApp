@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 import 'InputDecoration.dart';
 import 'package:medicalstore/PageWise/CustomerManagementScreen/CustomerManagementScreen.dart';
 import 'package:intl/intl.dart';
@@ -138,7 +139,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
           IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DashboardScreen()),
+                );
             },
           ),
         ],

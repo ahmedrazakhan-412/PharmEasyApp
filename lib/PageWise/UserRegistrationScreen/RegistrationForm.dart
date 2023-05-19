@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 import 'InputDecoration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'InputDecoration.dart' show buildInputDecoration;
@@ -16,21 +17,21 @@ class _FormPageState extends State<RegistrationForm> {
   TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
-  Future<void> storeUserRegistrationData() async {
-    // Get the collection reference
-    CollectionReference usersCollection =
-        FirebaseFirestore.instance.collection('EazyMed');
+Future<void> storeUserRegistrationData() async {
+  // Get the collection reference
+  CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('EazyMed');
 
-    // Create a new document with the user registration data
-    await usersCollection.add({
-      'name': nameController.text,
-      'email': emailController.text,
-      'phone': phoneController.text,
-      'password': passwordController.text,
-      'confirm password': confirmPasswordController.text,
-    });
-  }
-
+  // Create a new document with the user registration data and current date/time
+  await usersCollection.add({
+    'name': nameController.text,
+    'email': emailController.text,
+    'phone': phoneController.text,
+    'password': passwordController.text,
+    'confirm password': confirmPasswordController.text,
+    'date': DateTime.now().toString(),
+  });
+}
   void _showCongratulatoryDialog(String? name) {
     showDialog(
       context: context,
@@ -75,7 +76,10 @@ class _FormPageState extends State<RegistrationForm> {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context); // Close the dialog
-                    Navigator.popUntil(context, (route) => route.isFirst); // Navigate to main.dart
+                     Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DashboardScreen()),
+                );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green,
@@ -116,7 +120,10 @@ class _FormPageState extends State<RegistrationForm> {
           IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DashboardScreen()),
+                );
             },
           ),
         ],
