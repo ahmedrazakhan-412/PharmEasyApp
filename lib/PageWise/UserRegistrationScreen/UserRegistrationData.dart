@@ -41,29 +41,48 @@ class UserRegistrationData extends StatelessWidget {
             // Data is available, display it in a ListView
             List<Map<String, dynamic>> userRegistrationData = snapshot.data!;
             return ListView.builder(
-              itemCount: userRegistrationData.length,
-              itemBuilder: (context, index) {
-                // Display user registration data
-                Map<String, dynamic> userData = userRegistrationData[index];
+  itemCount: userRegistrationData.length,
+  itemBuilder: (context, index) {
+    // Display user registration data
+    Map<String, dynamic> userData = userRegistrationData[index];
+    final seriesNumber = index + 1;
 
-                return ListTile(
-                  title: Text(
-                    userData['name'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Email: ${userData['email']}'),
-                      Text('Password: ${userData['password']}'),
-                      Text('Phone: ${userData['phone']}'),
-                    ],
-                  ),
-                );
-              },
-            );
+    return ListTile(
+      leading: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: Text(
+            '$seriesNumber',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+      title: Text(
+        userData['name'],
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Email: ${userData['email']}'),
+          Text('Password: ${userData['password']}'),
+          Text('Phone: ${userData['phone']}'),
+        ],
+      ),
+    );
+  },
+);
+
           }
         },
       ),

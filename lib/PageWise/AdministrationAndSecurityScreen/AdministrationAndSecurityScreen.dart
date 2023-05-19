@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 
 class AdministrationAndSecurityScreen extends StatelessWidget {
    @override
@@ -12,7 +13,10 @@ class AdministrationAndSecurityScreen extends StatelessWidget {
     IconButton(
       icon: Icon(Icons.home),
       onPressed: () {
-        Navigator.popUntil(context, (route) => route.isFirst);
+         Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DashboardScreen()),
+                );
       },
     ),
   ],
