@@ -52,7 +52,7 @@ class UserRegistrationData extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Colors.teal[600],
           shape: BoxShape.circle,
         ),
         child: Center(

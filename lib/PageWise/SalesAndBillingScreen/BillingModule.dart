@@ -144,86 +144,167 @@ class _BillingModuleState extends State<BillingModule> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Customer Information',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                Text(
+                  'Customer Information',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            TextFormField(
-              controller: customerNameController,
-              decoration: InputDecoration(labelText: 'Customer Name'),
+            Row(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      height: 80,
+                      child: TextFormField(
+                        controller: customerNameController,
+                        decoration: InputDecoration(labelText: 'Customer Name'),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Column(
+                   children: [
+                     SizedBox(
+                       width: 200,
+                       height: 80,
+                       child: TextFormField(
+                         controller: customerContactController,
+                         decoration: InputDecoration(labelText: 'Customer Contact'),
+                       ),
+                     ),
+                   ],
+                ),
+              ],
             ),
-            TextFormField(
-              controller: customerAddressController,
-              decoration: InputDecoration(labelText: 'Customer Address'),
+            SizedBox(
+              height: 10,
             ),
-            TextFormField(
-              controller: customerContactController,
-              decoration: InputDecoration(labelText: 'Customer Contact'),
+            Row(
+              children: [
+                SizedBox(
+                  height: 80,
+                  width: 600,
+                  child: TextFormField(
+                    controller: customerAddressController,
+                    decoration: InputDecoration(labelText: 'Customer Address'),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 16.0),
-            Text(
-              'Invoice/Receipt Information',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            TextFormField(
-              controller: invoiceNumberController,
-              decoration: InputDecoration(labelText: 'Invoice/Receipt Number'),
-            ),
-TextFormField(
-  controller: dateController,
-  decoration: InputDecoration(
-    labelText: 'Date',
-    prefixIcon: Icon(Icons.date_range),
-  ),
-  onTap: () async {
-    final currentDate = DateTime.now();
-    final selectedDate = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (selectedDate != null) {
-      final selectedDateTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.fromDateTime(currentDate),
-      );
-      if (selectedDateTime != null) {
-        setState(() {
-          final dateTime = DateTime(
-            selectedDate.year,
-            selectedDate.month,
-            selectedDate.day,
-            selectedDateTime.hour,
-            selectedDateTime.minute,
-          );
-          dateController.text = DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
-        });
-      }
-    }
-  },
-),
-TextFormField(
-  controller: dueDateController,
-  decoration: InputDecoration(
-    labelText: 'Due Date',
-    prefixIcon: Icon(Icons.date_range),
-  ),
-  onTap: () async {
-    final selectedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100), // Set a distant future date
-    );
-    if (selectedDate != null) {
-      setState(() {
-        dueDateController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
-      });
-    }
-  },
-),
 
+            SizedBox(height: 16.0),
+            Row(
+              children: [
+                Text(
+                  'Invoice/Receipt Information',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 80,
+                      child: TextFormField(
+                        controller: invoiceNumberController,
+                        decoration: InputDecoration(labelText: 'Invoice/Receipt Number'),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 40,
+                      child:   TextFormField(
+                        controller: dateController,
+                        decoration: InputDecoration(
+                          labelText: 'Date',
+                          prefixIcon: Icon(Icons.date_range),
+                        ),
+                        onTap: () async {
+                          final currentDate = DateTime.now();
+                          final selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: currentDate,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (selectedDate != null) {
+                            final selectedDateTime = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(currentDate),
+                            );
+                            if (selectedDateTime != null) {
+                              setState(() {
+                                final dateTime = DateTime(
+                                  selectedDate.year,
+                                  selectedDate.month,
+                                  selectedDate.day,
+                                  selectedDateTime.hour,
+                                  selectedDateTime.minute,
+                                );
+                                dateController.text = DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
+                              });
+                            }
+                          }
+                        },
+                      ),
+                    ),
+
+                  ],
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 40,
+                      child:   TextFormField(
+                        controller: dueDateController,
+                        decoration: InputDecoration(
+                          labelText: 'Due Date',
+                          prefixIcon: Icon(Icons.date_range),
+                        ),
+                        onTap: () async {
+                          final selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100), // Set a distant future date
+                          );
+                          if (selectedDate != null) {
+                            setState(() {
+                              dueDateController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             TextFormField(
               controller: paymentTermsController,
               decoration: InputDecoration(labelText: 'Payment Terms'),
