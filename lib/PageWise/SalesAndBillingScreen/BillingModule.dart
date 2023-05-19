@@ -44,62 +44,70 @@ class _BillingModuleState extends State<BillingModule> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Bill Generated'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Customer Name: ${customerNameController.text}'),
-              Text('Customer Address: ${customerAddressController.text}'),
-              Text('Customer Contact: ${customerContactController.text}'),
-              Text('Invoice/Receipt Number: ${invoiceNumberController.text}'),
-              Text('Date: ${dateController.text}'),
-              Text('Due Date: ${dueDateController.text}'),
-              Text('Payment Terms: ${paymentTermsController.text}'),
-              Text('Payment Method: ${paymentMethodController.text}'),
-              Text('Description: ${descriptionController.text}'),
-              Row(
-                children: [
-                  Text('Item Description: \n${itemDescriptionController.text}'),
-                  SizedBox(width: 16.0),
-                  Text('Quantity: \n${quantityController.text}'),
-                  SizedBox(width: 16.0),
-                  Text('Unit Price: \n${unitPriceController.text}'),
-                ],
-              ),
-              Text('Tax Rate: ${taxRateController.text}'),
-              Text('Discount: ${discountController.text}'),
-              SizedBox(height: 16),
-              Text('Subtotal: ${calculateSubtotal().toStringAsFixed(2)}'),
-              SizedBox(height: 8),
-              Text(
-                'Total Amount: ${calculateTotalAmount().toStringAsFixed(2)}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+        return Expanded(
+          child: AlertDialog(
+            title: Text('Bill Generated'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Customer Name: ${customerNameController.text}'),
+                //Text('Customer Address: ${customerAddressController.text}'),
+                Text('Customer Contact: ${customerContactController.text}'),
+                Text('Invoice/Receipt Number: ${invoiceNumberController.text}'),
+                Text('Date: ${dateController.text}'),
+                Text('Due Date: ${dueDateController.text}'),
+               // Text('Payment Terms: ${paymentTermsController.text}'),
+                Text('Payment Method: ${paymentMethodController.text}'),
+                Text('Description: ${descriptionController.text}'),
+                //Text('Item Description: \n${itemDescriptionController.text}'),
+                Text('Quantity: \n${quantityController.text}'),
+                Text('Unit Price: \n${unitPriceController.text}'),
+                Text('Tax Rate: \Rs ${taxRateController.text}'),
+                Text('Discount: \Rs ${discountController.text}'),
+                SizedBox(height: 10),
+                Text('Subtotal: \Rs ${calculateSubtotal().toStringAsFixed(2)}'),
+                SizedBox(height: 10),
+                Text(
+                  'Total Amount: \Rs ${calculateTotalAmount().toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  // Print option functionality
+                  // Implement your printing logic here
+                  print('Printing the bill...');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[400],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: Text('Print'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Save option functionality
+                  // Implement your saving logic here
+                  print('Saving the bill...');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[400],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: Text('Save'),
               ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Print option functionality
-                // Implement your printing logic here
-                print('Printing the bill...');
-              },
-              child: Text('Print'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Save option functionality
-                // Implement your saving logic here
-                print('Saving the bill...');
-              },
-              child: Text('Save'),
-            ),
-          ],
         );
       },
     );
@@ -213,7 +221,7 @@ class _BillingModuleState extends State<BillingModule> {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Row(
              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,7 +245,7 @@ class _BillingModuleState extends State<BillingModule> {
                   children: [
                     SizedBox(
                       width: 200,
-                      height: 40,
+                      height: 80,
                       child:   TextFormField(
                         controller: dateController,
                         decoration: InputDecoration(
@@ -283,7 +291,7 @@ class _BillingModuleState extends State<BillingModule> {
                   children: [
                     SizedBox(
                       width: 200,
-                      height: 40,
+                      height: 80,
                       child:   TextFormField(
                         controller: dueDateController,
                         decoration: InputDecoration(
@@ -309,18 +317,50 @@ class _BillingModuleState extends State<BillingModule> {
                 ),
               ],
             ),
-            TextFormField(
-              controller: paymentTermsController,
-              decoration: InputDecoration(labelText: 'Payment Terms'),
-            ),
-            TextFormField(
-              controller: paymentMethodController,
-              decoration: InputDecoration(labelText: 'Payment Method'),
-            ),
-            TextFormField(
-              controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
-            ),
+           Row(
+             children: [
+               Column(
+                 children: [
+                   SizedBox(height:80,
+                     width: 200,
+                     child: TextFormField(
+                       controller: paymentTermsController,
+                       decoration: InputDecoration(labelText: 'Payment Terms'),
+                     ),
+                   ),
+                 ],
+               ),
+               SizedBox(
+                 width: 40,
+               ),
+               Column(
+                 children: [
+                   SizedBox(
+                     height: 80,
+                     width: 200,
+                     child: TextFormField(
+                       controller: paymentMethodController,
+                       decoration: InputDecoration(labelText: 'Payment Method'),
+                     ),
+                   ),
+                 ],
+               ),
+               SizedBox(
+                 width: 40,
+               ),
+               Column(
+                 children: [
+                   SizedBox(width: 200,
+                     height: 80,
+                     child: TextFormField(
+                       controller: descriptionController,
+                       decoration: InputDecoration(labelText: 'Description'),
+                     ),
+                   ),
+                 ],
+               ),
+             ],
+           ),
             SizedBox(height: 16.0),
             Text(
               'Itemized List',
@@ -328,42 +368,57 @@ class _BillingModuleState extends State<BillingModule> {
             ),
             Row(
               children: [
-                Expanded(
-                  flex: 3,
-                  child: TextFormField(
-                    controller: itemDescriptionController,
-                    decoration: InputDecoration(labelText: 'Item Description'),
-                  ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 80,
+                      width: 200,
+                      child: TextFormField(
+                        controller: itemDescriptionController,
+                        decoration: InputDecoration(labelText: 'Item Description'),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 16.0),
-                Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    controller: quantityController,
-                    decoration: InputDecoration(labelText: 'Quantity'),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {}); // Update the subtotal and total amount
-                    },
-                  ),
+                SizedBox(width: 40),
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 80,
+                      child: TextFormField(
+                        controller: quantityController,
+                        decoration: InputDecoration(labelText: 'Quantity'),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {}); // Update the subtotal and total amount
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 16.0),
-                Expanded(
-                  flex: 1,
-                  child: TextFormField(
-                    controller: unitPriceController,
-                    decoration: InputDecoration(labelText: 'Unit Price'),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      setState(() {}); // Update the subtotal and total amount
-                    },
-                  ),
+                SizedBox(width: 40),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 80,
+                      width: 200,
+                      child: TextFormField(
+                        controller: unitPriceController,
+                        decoration: InputDecoration(labelText: 'Unit Price'),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {}); // Update the subtotal and total amount
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
             SizedBox(height: 16.0),
             Text(
-              'Subtotal: \$${calculateSubtotal().toStringAsFixed(2)}',
+              'Subtotal : \Rs ${calculateSubtotal().toStringAsFixed(2)}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.0),
@@ -371,31 +426,69 @@ class _BillingModuleState extends State<BillingModule> {
               'Taxes and Discounts',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            TextFormField(
-              controller: taxRateController,
-              decoration: InputDecoration(labelText: 'Tax Rate'),
-              keyboardType: TextInputType.number,
-              onChanged: (value) {
-                setState(() {}); // Update the total amount
-              },
-            ),
-            TextFormField(
-              controller: discountController,
-              decoration: InputDecoration(labelText: 'Discount'),
-              keyboardType: TextInputType.number,
-              onChanged: (value) {
-                setState(() {}); // Update the total amount
-              },
+            Row(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 80,
+                      child: TextFormField(
+                        controller: taxRateController,
+                        decoration: InputDecoration(labelText: 'Tax Rate'),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {}); // Update the total amount
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 80,
+                      width: 200,
+                      child: TextFormField(
+                        controller: discountController,
+                        decoration: InputDecoration(labelText: 'Discount'),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {}); // Update the total amount
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: 16.0),
-            Text(
-              'Total Amount: \$${calculateTotalAmount().toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                'Total Amount : \Rs ${calculateTotalAmount().toStringAsFixed(2)}',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _generateBill,
-              child: Text('Generate Invoice/Receipt'),
+            Center(
+              child: SizedBox(
+                width: 250,
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: _generateBill,
+                  child: Text('Generate Invoice/Receipt'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green[400],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+
             ),
           ],
         ),

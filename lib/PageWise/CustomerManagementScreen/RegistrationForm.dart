@@ -133,7 +133,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text('Customer Registration Form'),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text('Customer Registration Form'),
+          ),
         ),
         actions: [
           IconButton(
@@ -149,377 +152,441 @@ class _RegistrationFormState extends State<RegistrationForm> {
       ),
     
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                TextFormField(
-                  decoration: buildInputDecoration(Icons.person,'Name'),
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _name = value!;
-                  },
-                ),
-                TextFormField(
-                  decoration: buildInputDecoration(Icons.email,'Email'),
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Please enter your email';
-                    }
-                    // Additional email validation logic can be implemented here
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _email = value!;
-                  },
-                ),
-                TextFormField(
-                  decoration: buildInputDecoration(Icons.phone,'Phone Number'),
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Please enter your phone number';
-                    }
-                    // Additional phone number validation logic can be implemented here
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _phoneNumber = value!;
-                  },
-                ),
-                TextFormField(
-                  decoration: buildInputDecoration(Icons.location_on,'Address'),
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Please enter your address';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _address = value!;
-                  },
-                ),
-                TextFormField(
-                  decoration: buildInputDecoration(Icons.lock,'Password'),
-                  obscureText: true,
-                   validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter Password';
-                      }
-                      return null;
-                    },
-                  onSaved: (value) {
-                    _password = value!;
-                  },
-                ),
-                TextFormField(
-                  decoration: buildInputDecoration(Icons.lock,'Confirm Password' ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Please confirm your password';
-                    }
-                    if (value == _password) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _confirmPassword = value!;
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Gender',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text(
-                    _gender,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  leading: Icon(Icons.people),
-                  onTap: () async {
-                    final result = await showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: Text('Select Gender'),
-                          children: [
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'Male');
-                              },
-                              child: Text('Male'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'Female');
-                              },
-                              child: Text('Female'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'Other');
-                              },
-                              child: Text('Other'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                    if (result != null) {
-                      setState(() {
-                        _gender = result;
-                      });
-                    }
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Age Group',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text(
-                    _ageGroup,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  leading: Icon(Icons.calendar_today),
-                  onTap: () async {
-                    final result = await showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: Text('Select Age Group'),
-                          children: [
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, '18-24');
-                              },
-                              child: Text('18-24'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, '25-34');
-                              },
-                              child: Text('25-34'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, '35-44');
-                              },
-                              child: Text('35-44'),
-                            ),
-                             SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, '45-74');
-                              },
-                              child: Text('45-74'),
-                            ),
-                            // Additional age group options can be added here
-                          ],
-                        );
-                      },
-                    );
-                    if (result != null) {
-                      setState(() {
-                        _ageGroup = result;
-                      });
-                    }
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Preferred Language',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text(
-                    _preferredLanguage,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  leading: Icon(Icons.language),
-                  onTap: () async {
-                    final result = await showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SimpleDialog(
-                          title: Text('Select Preferred Language'),
-                          children: [
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'English');
-                              },
-                              child: Text('English'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'Hindi');
-                              },
-                              child: Text('Hindi'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'Kannada');
-                              },
-                              child: Text('Kannada'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'Tamil');
-                              },
-                              child: Text('Tamil'),
-                            ),
-                            SimpleDialogOption(
-                              onPressed: () {
-                                Navigator.pop(context, 'Bengali');
-                              },
-                              child: Text('Bengali'),
-                            ),
-                            // Additional language options can be added here
-                          ],
-                        );
-                      },
-                    );
-                    if (result != null) {
-                      setState(() {
-                        _preferredLanguage = result;
-                      });
-                    }
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Interests',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text(
-                    _interests.join(', '),
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  leading: Icon(Icons.star),
-                  onTap: () async {
-                    final result = await showDialog<List<String>>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        List<String> selectedInterests = List.from(_interests);
-                        return AlertDialog(
-                          title: Text('Select Interests'),
-                          content: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                CheckboxListTile(
-                                  title: Text('Sports'),
-                                  value: selectedInterests.contains('Sports'),
-                                  onChanged: (value) {
-                                    if (value!) {
-                                      selectedInterests.add('Sports');
-                                    } else {
-                                      selectedInterests.remove('Sports');
-                                    }
-                                    setState(() {
-                                      _interests = List.from(selectedInterests);
-                                    });
-                                  },
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                width: 400,
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          decoration: buildInputDecoration(Icons.person,'Name'),
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _name = value!;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          decoration: buildInputDecoration(Icons.email,'Email'),
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Please enter your email';
+                            }
+                            // Additional email validation logic can be implemented here
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _email = value!;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          decoration: buildInputDecoration(Icons.phone,'Phone Number'),
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Please enter your phone number';
+                            }
+                            // Additional phone number validation logic can be implemented here
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _phoneNumber = value!;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          decoration: buildInputDecoration(Icons.location_on,'Address'),
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Please enter your address';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _address = value!;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          decoration: buildInputDecoration(Icons.lock,'Password'),
+                          obscureText: true,
+                           validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Password';
+                              }
+                              return null;
+                            },
+                          onSaved: (value) {
+                            _password = value!;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          decoration: buildInputDecoration(Icons.lock,'Confirm Password' ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Please confirm your password';
+                            }
+                            if (value == _password) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _confirmPassword = value!;
+                          },
+                        ),
+                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      ListTile(
+                        title: Text(
+                          'Gender',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          _gender,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        leading: Icon(Icons.people),
+                        onTap: () async {
+                          final result = await showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SimpleDialog(
+                                title: Text('Select Gender'),
+                                children: [
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Male');
+                                    },
+                                    child: Text('Male'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Female');
+                                    },
+                                    child: Text('Female'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Other');
+                                    },
+                                    child: Text('Other'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if (result != null) {
+                            setState(() {
+                              _gender = result;
+                            });
+                          }
+                        },
+                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      ListTile(
+                        title: Text(
+                          'Date of Birth',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          _dob != null ? DateFormat('yyyy-MM-dd').format(_dob) : '',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        leading: Icon(Icons.date_range),
+                        onTap: () async {
+                          final currentDate = DateTime.now();
+                          final selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: _dob ?? currentDate,
+                            firstDate: DateTime(1900),
+                            lastDate: currentDate,
+                          );
+                          if (selectedDate != null) {
+                            setState(() {
+                              _dob = selectedDate;
+                            });
+                          }
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Age Group',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          _ageGroup,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        leading: Icon(Icons.calendar_today),
+                        onTap: () async {
+                          final result = await showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SimpleDialog(
+                                title: Text('Select Age Group'),
+                                children: [
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, '18-24');
+                                    },
+                                    child: Text('18-24'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, '25-34');
+                                    },
+                                    child: Text('25-34'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, '35-44');
+                                    },
+                                    child: Text('35-44'),
+                                  ),
+                                   SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, '45-74');
+                                    },
+                                    child: Text('45-74'),
+                                  ),
+                                  // Additional age group options can be added here
+                                ],
+                              );
+                            },
+                          );
+                          if (result != null) {
+                            setState(() {
+                              _ageGroup = result;
+                            });
+                          }
+                        },
+                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      ListTile(
+                        title: Text(
+                          'Preferred Language',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          _preferredLanguage,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        leading: Icon(Icons.language),
+                        onTap: () async {
+                          final result = await showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SimpleDialog(
+                                title: Text('Select Preferred Language'),
+                                children: [
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'English');
+                                    },
+                                    child: Text('English'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Hindi');
+                                    },
+                                    child: Text('Hindi'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Kannada');
+                                    },
+                                    child: Text('Kannada'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Tamil');
+                                    },
+                                    child: Text('Tamil'),
+                                  ),
+                                  SimpleDialogOption(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Bengali');
+                                    },
+                                    child: Text('Bengali'),
+                                  ),
+                                  // Additional language options can be added here
+                                ],
+                              );
+                            },
+                          );
+                          if (result != null) {
+                            setState(() {
+                              _preferredLanguage = result;
+                            });
+                          }
+                        },
+                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      ListTile(
+                        title: Text(
+                          'Interests',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          _interests.join(', '),
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        leading: Icon(Icons.star),
+                        onTap: () async {
+                          final result = await showDialog<List<String>>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              List<String> selectedInterests = List.from(_interests);
+                              return AlertDialog(
+                                title: Text('Select Interests'),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      CheckboxListTile(
+                                        title: Text('Sports'),
+                                        value: selectedInterests.contains('Sports'),
+                                        onChanged: (value) {
+                                          if (value!) {
+                                            selectedInterests.add('Sports');
+                                          } else {
+                                            selectedInterests.remove('Sports');
+                                          }
+                                          setState(() {
+                                            _interests = List.from(selectedInterests);
+                                          });
+                                        },
+                                      ),
+                                      CheckboxListTile(
+                                        title: Text('Music'),
+                                        value: selectedInterests.contains('Music'),
+                                        onChanged: (value) {
+                                          if (value!) {
+                                            selectedInterests.add('Music');
+                                          } else {
+                                            selectedInterests.remove('Music');
+                                          }
+                                          setState(() {
+                                            _interests = List.from(selectedInterests);
+                                          });
+                                        },
+                                      ),
+                                      CheckboxListTile(
+                                        title: Text('Travel'),
+                                        value: selectedInterests.contains('Travel'),
+                                        onChanged: (value) {
+                                          if (value!) {
+                                            selectedInterests.add('Travel');
+                                          } else {
+                                            selectedInterests.remove('Travel');
+                                          }
+                                          setState(() {
+                                            _interests = List.from(selectedInterests);
+                                          });
+                                        },
+                                      ),
+                                      // Additional interest options can be added here
+                                    ],
+                                  ),
                                 ),
-                                CheckboxListTile(
-                                  title: Text('Music'),
-                                  value: selectedInterests.contains('Music'),
-                                  onChanged: (value) {
-                                    if (value!) {
-                                      selectedInterests.add('Music');
-                                    } else {
-                                      selectedInterests.remove('Music');
-                                    }
-                                    setState(() {
-                                      _interests = List.from(selectedInterests);
-                                    });
-                                  },
-                                ),
-                                CheckboxListTile(
-                                  title: Text('Travel'),
-                                  value: selectedInterests.contains('Travel'),
-                                  onChanged: (value) {
-                                    if (value!) {
-                                      selectedInterests.add('Travel');
-                                    } else {
-                                      selectedInterests.remove('Travel');
-                                    }
-                                    setState(() {
-                                      _interests = List.from(selectedInterests);
-                                    });
-                                  },
-                                ),
-                                // Additional interest options can be added here
-                              ],
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context, selectedInterests);
-                              },
-                              child: Text('Done'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                    if (result != null) {
-                      setState(() {
-                        _interests = result;
-                      });
-                    }
-                  },
-                ),
-                ListTile(
-  title: Text(
-    'Date of Birth',
-    style: TextStyle(fontSize: 16),
-  ),
-  subtitle: Text(
-    _dob != null ? DateFormat('yyyy-MM-dd').format(_dob) : '',
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-  ),
-  leading: Icon(Icons.date_range),
-  onTap: () async {
-    final currentDate = DateTime.now();
-    final selectedDate = await showDatePicker(
-      context: context,
-      initialDate: _dob ?? currentDate,
-      firstDate: DateTime(1900),
-      lastDate: currentDate,
-    );
-    if (selectedDate != null) {
-      setState(() {
-        _dob = selectedDate;
-      });
-    }
-  },
-),
-                SizedBox(
-                  width: 200,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                     if (_formKey.currentState?.validate() ?? false) {
-                        _formKey.currentState?.save();
-                        print("Successful");
-                        _showCongratulatoryDialog(_name);
-                      } else {
-                        print("Unsuccessful");
-                      }
-                    },
-                    child: const Text('Submit'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context, selectedInterests);
+                                    },
+                                    child: Text('Done'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if (result != null) {
+                            setState(() {
+                              _interests = result;
+                            });
+                          }
+                        },
+                      ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                           if (_formKey.currentState?.validate() ?? false) {
+                              _formKey.currentState?.save();
+                              print("Successful");
+                              _showCongratulatoryDialog(_name);
+                            } else {
+                              print("Unsuccessful");
+                            }
+                          },
+                          child: const Text('Submit'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:medicalstore/API/JsonToDart.dart';
 
+import '../Dashboard/DashboardScreen.dart';
+
 class ExpHandling extends StatelessWidget {
   ExpHandling({Key? key}) : super(key: key);
 
@@ -34,7 +36,10 @@ class ExpHandling extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.home),
             onPressed: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
+              Navigator.push(
+                  context,
+                MaterialPageRoute(builder: (context) => DashboardScreen()),
+              );
             },
           ),
         ],

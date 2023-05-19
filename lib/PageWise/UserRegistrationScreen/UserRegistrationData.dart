@@ -31,6 +31,8 @@ void _showUserInfoDialog(BuildContext context, Map<String, dynamic> userData) {
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         child: Container(
+          width: 300,
+          height: 300,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
@@ -49,31 +51,33 @@ void _showUserInfoDialog(BuildContext context, Map<String, dynamic> userData) {
               ),
               const SizedBox(height: 16.0),
               _buildUserDetailRow('Name', userData['name'], isBold: true),
-              _buildUserDetailRow('Date', userData['date'], isBold: false),
-              _buildUserDetailRow('Email', userData['email'], isBold: false),
-              _buildUserDetailRow('Phone', userData['phone'], isBold: false),
-              _buildUserDetailRow('Password', userData['password'], isBold: false),
-              const SizedBox(height: 24.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close the dialog
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+              _buildUserDetailRow('Date', userData['date'], isBold: true),
+              _buildUserDetailRow('Email', userData['email'], isBold: true),
+              _buildUserDetailRow('Phone', userData['phone'], isBold: true),
+              _buildUserDetailRow('Password', userData['password'], isBold: true),
+             SizedBox(height: 35.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close the dialog
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green[400],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 16.0,
-                  ),
-                  child: Text(
-                    'OK',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8.0,
+                      horizontal: 16.0,
+                    ),
+                    child: Text(
+                      'OK',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -96,12 +100,14 @@ Widget _buildUserDetailRow(String label, String value, {bool isBold = false}) {
             text: '$label: ',
             style: TextStyle(
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                color:Colors.black
             ),
           ),
           TextSpan(
             text: value,
             style: TextStyle(
               fontWeight: FontWeight.normal,
+              color: Colors.black
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medicalstore/Login/UserProvider.dart';
@@ -113,12 +114,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     userData['email'] == email &&
                     userData['password'] == password);
 
-                if (isLoggedIn) {
+              if (isLoggedIn) {
   String username = userRegistrationData
       .firstWhere((userData) =>
           userData['email'] == email && userData['password'] == password)
       ['name'];
+
+  String loginTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+
   Provider.of<UserProvider>(context, listen: false).setUserName(username);
+  // ignore: use_build_context_synchronously
+  Provider.of<UserProvider>(context, listen: false).setLoginTime(loginTime);
+
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -126,6 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
     ),
   );
 }
+
  else {
                   showDialog(
                     context: context,
