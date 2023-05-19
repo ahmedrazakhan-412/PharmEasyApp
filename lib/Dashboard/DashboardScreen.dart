@@ -20,6 +20,8 @@ class DashboardScreen extends StatelessWidget {
     String userName = Provider.of<UserProvider>(context).userName;
     String currentDate = DateFormat('MMM dd, yyyy').format(DateTime.now());
     String currentTime = DateFormat('hh:mm a').format(DateTime.now());
+    String loginTime = Provider.of<UserProvider>(context).loginTime;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -75,8 +77,12 @@ class DashboardScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  IconButton(onPressed: () {}, icon: Icon(Icons.person, color: Colors.white)),
-                                  Text('My Cloud', style: TextStyle(fontSize: 12, color: Colors.white)),
+                                  IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.person, color: Colors.white),
+                            ),
+                            Text('My Cloud', style: TextStyle(fontSize: 12, color: Colors.white)),
+                            if (loginTime.isNotEmpty) Text(' - $loginTime', style: TextStyle(fontSize: 12, color: Colors.white)),
                                 ],
                               ),
                             ),
