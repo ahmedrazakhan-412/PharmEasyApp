@@ -21,7 +21,6 @@ class DashboardScreen extends StatelessWidget {
     String userName = Provider.of<UserProvider>(context).userName;
     String currentDate = DateFormat('MMM dd, yyyy').format(DateTime.now());
     String currentTime = DateFormat('hh:mm a').format(DateTime.now());
-    String loginTime = Provider.of<UserProvider>(context).loginTime;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -49,19 +48,23 @@ class DashboardScreen extends StatelessWidget {
                           // ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Welcome, $userName',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white
+                            child: Center(
+                              child: Text(
+                                'Welcome! \n$userName',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white
+                                ),
                               ),
                             ),
                           ),
                           SizedBox(
                             height: 5,
                           ),
-                          if (loginTime.isNotEmpty) Text('  $loginTime', style: TextStyle(fontSize: 15, color: Colors.white)),
+                        Center(child: Text('$currentDate  $currentTime',
+                          style: TextStyle(color: Colors.white,
+                          fontWeight: FontWeight.bold),)),
                           SizedBox(
                             height: 20,
                           ),
@@ -75,7 +78,7 @@ class DashboardScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     IconButton(onPressed: () {}, icon: Icon(Icons.person,color: Colors.white)),
-                                    Text('My Cload',style: TextStyle(fontSize: 12,color: Colors.white))
+                                    Text('My Cload',style: TextStyle(fontSize: 15,color: Colors.white))
                                   ],
                                 ),
                               )
@@ -93,7 +96,7 @@ class DashboardScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     IconButton(onPressed: () {}, icon: Icon(Icons.people,color: Colors.white)),
-                                    Text('Shared Files',style: TextStyle(fontSize: 12,color: Colors.white))
+                                    Text('Shared Files',style: TextStyle(fontSize: 15,color: Colors.white))
                                   ],
                                 ),
                               )
@@ -111,7 +114,7 @@ class DashboardScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     IconButton(onPressed: () {}, icon: Icon(Icons.star,color: Colors.white)),
-                                    Text('Favorites',style: TextStyle(fontSize: 12,color: Colors.white))
+                                    Text('Favorites',style: TextStyle(fontSize: 15,color: Colors.white))
                                   ],
                                 ),
                               )
@@ -129,47 +132,13 @@ class DashboardScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     IconButton(onPressed: () {}, icon: Icon(Icons.cloud_upload,color: Colors.white,)),
-                                    Text('Upload Files',style: TextStyle(fontSize: 12,color: Colors.white))
+                                    Text('Upload Files',style: TextStyle(fontSize: 15,color: Colors.white))
                                   ],
                                 ),
                               )
                           ),
                           SizedBox(
-                            height: 150,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Settings'),
-                                            //  content: Text('This is a dialog window.'),
-                                            actions: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Close'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    icon: Icon(
-                                        Icons.settings,color: Colors.white
-                                    )),
-                                Text(
-                                  'Settings',style: TextStyle(color: Colors.white),
-                                ),
-                              ],
-                            ),
+                            height: 10,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 20),
@@ -189,7 +158,7 @@ class DashboardScreen extends StatelessWidget {
                                                   Navigator.of(context).pop();
                                                   Navigator.popUntil(context, (route) => route.isFirst);
                                                 },
-                                                child: Text('yes'),
+                                                child: Text('Yes'),
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
@@ -206,7 +175,7 @@ class DashboardScreen extends StatelessWidget {
                                         Icons.logout,color: Colors.white
                                     )),
                                 Text(
-                                  'Logout',style: TextStyle(color: Colors.white),
+                                  'Logout',style: TextStyle(color: Colors.white,fontSize: 15),
                                 ),
                               ],
                             ),
