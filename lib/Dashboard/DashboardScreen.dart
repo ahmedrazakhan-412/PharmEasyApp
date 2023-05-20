@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medicalstore/Login/Clock.dart';
 import 'package:medicalstore/Login/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'DashboardModuleCard.dart';
@@ -50,7 +51,7 @@ class DashboardScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
                               child: Text(
-                                'Welcome! \n$userName',
+                                'Welcome! $userName',
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
@@ -62,12 +63,14 @@ class DashboardScreen extends StatelessWidget {
                           SizedBox(
                             height: 5,
                           ),
-                        Center(child: Text('$currentDate  $currentTime',
-                          style: TextStyle(color: Colors.white,
-                          fontWeight: FontWeight.bold),)),
-                          SizedBox(
-                            height: 20,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(child: Clock()),
+                          ],
+                        ),
+                          SizedBox(height: 20),
+
                           SizedBox(
                               width: 130,
                               height: 40,
