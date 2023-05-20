@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medicalstore/Login/Clock.dart';
 import 'package:medicalstore/Login/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'DashboardModuleCard.dart';
@@ -62,11 +63,7 @@ class DashboardScreen extends StatelessWidget {
                           SizedBox(
                             height: 5,
                           ),
-                        Center(child: Text('$currentDate  $currentTime',
-                          style: TextStyle(color: Colors.white,
-                          fontWeight: FontWeight.bold),)),
-                          SizedBox(
-                            height: 20,
+                        Center(child: Clock(),
                           ),
                           SizedBox(
                               width: 130,
