@@ -244,7 +244,7 @@ class _BillingModuleState extends State<BillingModule> {
                 Column(
                   children: [
                     SizedBox(
-                      width: 200,
+                      width: 100,
                       height: 80,
                       child: TextFormField(
                         controller: invoiceNumberController,
@@ -335,20 +335,6 @@ class _BillingModuleState extends State<BillingModule> {
             ),
            Row(
              children: [
-               Column(
-                 children: [
-                   SizedBox(height:80,
-                     width: 200,
-                     child: TextFormField(
-                       controller: paymentTermsController,
-                       decoration: InputDecoration(labelText: 'Payment Terms'),
-                     ),
-                   ),
-                 ],
-               ),
-               SizedBox(
-                 width: 40,
-               ),
                Row(
                  children: [
                    SizedBox(
@@ -408,6 +394,38 @@ class _BillingModuleState extends State<BillingModule> {
               'Itemized List',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            SizedBox(
+               height: 10,
+            ),
+            Row(
+              children: [
+                Text(
+                  'Item Discription',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  width: 150,
+                ),
+                Text(
+                  'Unit Price',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  width: 70,
+                ),
+                Text(
+                  'Quantity',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  width: 80,
+                ),
+                Text(
+                  'Amount',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
             Row(
               children: [
                 Column(
@@ -417,7 +435,7 @@ class _BillingModuleState extends State<BillingModule> {
                       width: 200,
                       child: TextFormField(
                         controller: itemDescriptionController,
-                        decoration: InputDecoration(labelText: 'Item Description'),
+                        //decoration: InputDecoration(labelText: 'Item Description'),
                       ),
                     ),
                   ],
@@ -426,11 +444,28 @@ class _BillingModuleState extends State<BillingModule> {
                 Column(
                   children: [
                     SizedBox(
-                      width: 200,
+                      height: 80,
+                      width: 100,
+                      child: TextFormField(
+                        controller: unitPriceController,
+                       // decoration: InputDecoration(labelText: 'Unit Price'),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {}); // Update the subtotal and total amount
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 40),
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 100,
                       height: 80,
                       child: TextFormField(
                         controller: quantityController,
-                        decoration: InputDecoration(labelText: 'Quantity'),
+                       // decoration: InputDecoration(labelText: 'Quantity'),
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
                           setState(() {}); // Update the subtotal and total amount
@@ -439,30 +474,31 @@ class _BillingModuleState extends State<BillingModule> {
                     ),
                   ],
                 ),
-                SizedBox(width: 40),
+
+                SizedBox(
+                  width: 40,
+                ),
                 Column(
                   children: [
                     SizedBox(
+                      width: 100,
                       height: 80,
-                      width: 200,
                       child: TextFormField(
-                        controller: unitPriceController,
-                        decoration: InputDecoration(labelText: 'Unit Price'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {}); // Update the subtotal and total amount
-                        },
+                        // controller: invoiceNumberController,
+                        decoration: InputDecoration(labelText: ': \n ${calculateSubtotal().toStringAsFixed(2)}',
+                        ),
+                        enabled: false,
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
-            Text(
-              'Subtotal : \Rs ${calculateSubtotal().toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            // SizedBox(height: 16.0),
+            // Text(
+            //   'Subtotal : \Rs ${calculateSubtotal().toStringAsFixed(2)}',
+            //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            // ),
             SizedBox(height: 16.0),
             Text(
               'Taxes and Discounts',
