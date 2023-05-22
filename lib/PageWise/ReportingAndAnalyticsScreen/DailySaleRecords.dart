@@ -8,7 +8,7 @@ class InvoiceListPage extends StatefulWidget {
 
 class _InvoiceListPageState extends State<InvoiceListPage> {
   List<Map<String, dynamic>> invoiceDataList = [];
-  late DateTime selectedDate; // Add selectedDate variable
+  late DateTime selectedDate = DateTime.now();  // Add selectedDate variable
   double grandTotal = 0.0; // Add grandTotal variable
 
   @override
@@ -21,12 +21,7 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
     final List<Object?> fetchedData = await FirebaseHandler.getAllInvoiceData();
     invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
     invoiceDataList.sort((a, b) => a['date'].compareTo(b['date']));
-    calculateGrandTotal(); // Calculate grand total after loading invoice data
     setState(() {});
-  }
-
-  void calculateGrandTotal() {
-    grandTotal = invoiceDataList.fold(0.0, (total, invoice) => total + invoice['totalAmount']);
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -44,19 +39,39 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
     }
   }
 
- List<Map<String, dynamic>> getFilteredInvoiceData() {
+List<Map<String, dynamic>> getFilteredInvoiceData() {
   if (selectedDate == null) {
     return invoiceDataList;
   } else {
+    final selectedDateString = selectedDate.toLocal().toString().split(' ')[0];
     return invoiceDataList
         .where((invoice) =>
-            invoice['date'].toLocal().date == selectedDate.toLocal().day)
+            invoice['date'].toString().split(' ')[0] == selectedDateString)
         .toList();
   }
 }
 
-
   void _showUserInfoDialog(BuildContext context, Map<String, dynamic> invoiceData) {
+  final filteredInvoiceData = getFilteredInvoiceData();
+  if (filteredInvoiceData.isEmpty) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('No Records'),
+          content: Text('Sorry, there are no records for the selected date.'),
+          actions: [
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  } else {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -110,10 +125,13 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
       },
     );
   }
+}
 
-  @override
+
+ @override
 Widget build(BuildContext context) {
   final filteredInvoiceData = getFilteredInvoiceData(); // Filtered invoice data based on selected date
+  final filteredGrandTotal = filteredInvoiceData.fold(0.0, (total, invoice) => total + double.parse(invoice['totalAmount']));
 
   return Scaffold(
     appBar: AppBar(
@@ -194,7 +212,7 @@ Widget build(BuildContext context) {
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Text(
-            'Grand Total: $grandTotal',
+            'Grand Total: $filteredGrandTotal',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16.0,

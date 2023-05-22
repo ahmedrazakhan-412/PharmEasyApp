@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medicalstore/API/Exphandling.dart';
 import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 import 'package:medicalstore/PageWise/CustomerManagementScreen/RegistrationForm.dart';
+
+import 'DailySaleRecords.dart';
 
 class ReportingAndAnalyticsScreen extends StatelessWidget {
   @override
@@ -32,7 +33,7 @@ class ReportingAndAnalyticsScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ExpHandling()),
+                  MaterialPageRoute(builder: (context) => InvoiceListPage()),
                 );
               },
               child: Text('Report Details'),
