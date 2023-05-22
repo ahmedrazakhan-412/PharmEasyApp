@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicalstore/Dashboard/DashboardScreen.dart';
@@ -30,7 +32,7 @@ class _BillingModuleState extends State<BillingModule> {
 
   DateTime selectedDueDate = DateTime.now();
   int slno = 1;
-
+  var _date='-1';
   @override
   void initState() {
     super.initState();
@@ -347,18 +349,44 @@ class _BillingModuleState extends State<BillingModule> {
                SizedBox(
                  width: 40,
                ),
-               Column(
+               Row(
                  children: [
                    SizedBox(
-                     height: 80,
+                       width: MediaQuery.of(context).size.width*0.06,
+                       child: AutoSizeText('Payment')),
+                   SizedBox(
+                     height: 30,
                      width: 200,
-                     child: TextFormField(
-                       controller: paymentMethodController,
-                       decoration: InputDecoration(labelText: 'Payment Method'),
-                     ),
+                      child: Container(
+                        height: 30,
+                        width: MediaQuery.of(context).size.width*0.1,
+                        // width: 150,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+
+                              //color: Colors.black
+                            )
+                        ),
+                        child: DropdownButtonHideUnderline(
+
+                          child: DropdownButton2(
+                              //controller: paymentMethodController,
+                              value: _date,
+                              items:[
+                                DropdownMenuItem(child: Text('Select the mode'),value: '-1',)
+                              ], onChanged: (v){}
+                          ),
+                        ),
+                      ),
+
                    ),
                  ],
                ),
+               // TextFormField(
+               //   controller: paymentMethodController,
+               //   decoration: InputDecoration(labelText: 'Payment Method'),
+               // ),
                SizedBox(
                  width: 40,
                ),
