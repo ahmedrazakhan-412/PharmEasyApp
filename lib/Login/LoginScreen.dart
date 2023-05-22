@@ -68,21 +68,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40,
                 width: 300,
                 child: TextField(
+                  style: TextStyle(color: Colors.white),
                   controller: emailController,
                   decoration: InputDecoration(
                     hintText: 'E-mail',hintStyle: TextStyle(color: Colors.white),
+
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                     prefixIcon: Icon(Icons.person,color: Colors.white54),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white,
-                          width: 1.25,
-                          style: BorderStyle.solid),
+                    enabledBorder:  OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white,
+                            width: 1.25,
+                            style: BorderStyle.solid),
                         borderRadius: BorderRadius.circular(20)
                     ),
+                    focusedBorder:UnderlineInputBorder(
+                        borderSide: BorderSide(color:Colors.white )),
+                  ),
                   ),
                 ),
-              ),
               SizedBox(height: 10.0),
               SizedBox(
                 height: 40,
@@ -94,12 +98,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                     prefixIcon: Icon(Icons.lock,color: Colors.white54),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white,width: 1.25,style: BorderStyle.solid),
+                    enabledBorder:  OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white,
+                            width: 1.25,
+                            style: BorderStyle.solid),
                         borderRadius: BorderRadius.circular(20)
                     ),
+                    focusedBorder:UnderlineInputBorder(
+                  borderSide: BorderSide(color:Colors.white )),
                   ),
-                  obscureText: true, ),
+                  obscureText: true,style: TextStyle(color: Colors.white), ),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(
