@@ -68,8 +68,6 @@ class BillGenerator {
 
                   ],
                 ),
-
-
                 // Text('Payment Terms: ${paymentTermsController.text}'),
                 Text('Payment Method: ${paymentMethodController.text}'),
                 Text('Description: ${descriptionController.text}'),
