@@ -35,16 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     // backgroundColor: Colors.white,
-
-      // appBar: AppBar(
-      //   title: Center(
-      //     child: Padding(
-      //       padding: const EdgeInsets.only(top: 30),
-      //       child: Text('User Login'),
-      //     ),
-      //   ),
-      // ),
+    // backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -57,21 +48,37 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // SizedBox(
-              //   height: 10,
-              // ),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text('User Login',style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
               SizedBox(
                 height: 40,
                 width: 300,
                 child: TextField(
                   controller: emailController,
                   decoration: InputDecoration(
-                    hintText: 'E-mail',
+                    hintText: 'E-mail',hintStyle: TextStyle(color: Colors.white),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                    prefixIcon: Icon(Icons.person),fillColor: Colors.white,
+                    prefixIcon: Icon(Icons.person,color: Colors.white54),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 0.25),
+                      borderSide: BorderSide(color: Colors.white,
+                          width: 1.25,
+                          style: BorderStyle.solid),
+                        borderRadius: BorderRadius.circular(20)
                     ),
                   ),
                 ),
@@ -83,16 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextField(
                   controller: passwordController,
                   decoration: InputDecoration(
-                    hintText: 'Password',
+                    hintText: 'Password',hintStyle: TextStyle(color: Colors.white),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: Icon(Icons.lock,color: Colors.white54),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 0.25),
+                      borderSide: BorderSide(color: Colors.white,width: 1.25,style: BorderStyle.solid),
+                        borderRadius: BorderRadius.circular(20)
                     ),
                   ),
-                  obscureText: true,
-                ),
+                  obscureText: true, ),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(

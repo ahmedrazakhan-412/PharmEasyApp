@@ -247,6 +247,7 @@ class _BillingModuleState extends State<BillingModule> {
                       child: TextFormField(
                         controller: invoiceNumberController,
                         decoration: InputDecoration(labelText: 'Invoice/Receipt Number'),
+                        enabled: false,
                       ),
                     ),
                   ],
