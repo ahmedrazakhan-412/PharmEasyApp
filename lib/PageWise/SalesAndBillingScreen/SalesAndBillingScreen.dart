@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medicalstore/API/Exphandling.dart';
 import 'package:medicalstore/Dashboard/DashboardScreen.dart';
 import 'BillingModule.dart';
+import 'InvoiceListPage.dart';
 
 class SalesAndBillingScreen extends StatelessWidget {
   @override
@@ -32,7 +33,7 @@ Widget build(BuildContext context) {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ExpHandling()),
+                  MaterialPageRoute(builder: (context) => InvoiceListPage()),
                 );
               },
               child: Text('Billing Details'),

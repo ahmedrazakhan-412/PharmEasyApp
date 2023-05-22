@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicalstore/Dashboard/DashboardScreen.dart';
+import 'BillGenerator.dart';
+import 'FirebaseInvoice.dart';
 
 
 class BillingModule extends StatefulWidget {
   @override
   _BillingModuleState createState() => _BillingModuleState();
+  final FirebaseHandler firebaseHandler = FirebaseHandler();
 }
 
 class _BillingModuleState extends State<BillingModule> {
@@ -25,6 +29,7 @@ class _BillingModuleState extends State<BillingModule> {
   TextEditingController discountController = TextEditingController();
 
   DateTime selectedDueDate = DateTime.now();
+  int slno = 1;
 
   @override
   void initState() {
@@ -32,86 +37,86 @@ class _BillingModuleState extends State<BillingModule> {
     selectedDueDate = DateTime.now();
   }
 
-  void _generateBill() {
-    // Generate the bill logic
-    // You can access the entered data using the text controllers
-
-    // Example: Printing the bill to the console
-    print('Customer Name: ${customerNameController.text}');
-    // ... print other data
-
-    // Show the dialog with print and save options
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Expanded(
-          child: AlertDialog(
-            title: Text('Bill Generated'),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Customer Name: ${customerNameController.text}'),
-                //Text('Customer Address: ${customerAddressController.text}'),
-                Text('Customer Contact: ${customerContactController.text}'),
-                Text('Invoice/Receipt Number: ${invoiceNumberController.text}'),
-                Text('Date: ${dateController.text}'),
-                Text('Due Date: ${dueDateController.text}'),
-               // Text('Payment Terms: ${paymentTermsController.text}'),
-                Text('Payment Method: ${paymentMethodController.text}'),
-                Text('Description: ${descriptionController.text}'),
-                //Text('Item Description: \n${itemDescriptionController.text}'),
-                Text('Quantity: \n${quantityController.text}'),
-                Text('Unit Price: \n${unitPriceController.text}'),
-                Text('Tax Rate: \Rs ${taxRateController.text}'),
-                Text('Discount: \Rs ${discountController.text}'),
-                SizedBox(height: 10),
-                Text('Subtotal: \Rs ${calculateSubtotal().toStringAsFixed(2)}'),
-                SizedBox(height: 10),
-                Text(
-                  'Total Amount: \Rs ${calculateTotalAmount().toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  // Print option functionality
-                  // Implement your printing logic here
-                  print('Printing the bill...');
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green[400],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text('Print'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Save option functionality
-                  // Implement your saving logic here
-                  print('Saving the bill...');
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green[400],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                child: Text('Save'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // void _generateBill() {
+  //   // Generate the bill logic
+  //   // You can access the entered data using the text controllers
+  //
+  //   // Example: Printing the bill to the console
+  //   print('Customer Name: ${customerNameController.text}');
+  //   // ... print other data
+  //
+  //   // Show the dialog with print and save options
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return Expanded(
+  //         child: AlertDialog(
+  //           title: Text('Bill Generated'),
+  //           content: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               Text('Customer Name: ${customerNameController.text}'),
+  //               //Text('Customer Address: ${customerAddressController.text}'),
+  //               Text('Customer Contact: ${customerContactController.text}'),
+  //               Text('Invoice/Receipt Number: ${invoiceNumberController.text}'),
+  //               Text('Date: ${dateController.text}'),
+  //               Text('Due Date: ${dueDateController.text}'),
+  //              // Text('Payment Terms: ${paymentTermsController.text}'),
+  //               Text('Payment Method: ${paymentMethodController.text}'),
+  //               Text('Description: ${descriptionController.text}'),
+  //               //Text('Item Description: \n${itemDescriptionController.text}'),
+  //               Text('Quantity: \n${quantityController.text}'),
+  //               Text('Unit Price: \n${unitPriceController.text}'),
+  //               Text('Tax Rate: \Rs ${taxRateController.text}'),
+  //               Text('Discount: \Rs ${discountController.text}'),
+  //               SizedBox(height: 10),
+  //               Text('Subtotal: \Rs ${calculateSubtotal().toStringAsFixed(2)}'),
+  //               SizedBox(height: 10),
+  //               Text(
+  //                 'Total Amount: \Rs ${calculateTotalAmount().toStringAsFixed(2)}',
+  //                 style: TextStyle(
+  //                   fontSize: 18,
+  //                   fontWeight: FontWeight.bold,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           actions: [
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 // Print option functionality
+  //                 // Implement your printing logic here
+  //                 print('Printing the bill...');
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 primary: Colors.green[400],
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(8.0),
+  //                 ),
+  //               ),
+  //               child: Text('Print'),
+  //             ),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 // Save option functionality
+  //                 // Implement your saving logic here
+  //                 print('Saving the bill...');
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 primary: Colors.green[400],
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(8.0),
+  //                 ),
+  //               ),
+  //               child: Text('Save'),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   double calculateSubtotal() {
     double quantity = double.tryParse(quantityController.text) ?? 0.0;
@@ -128,8 +133,16 @@ class _BillingModuleState extends State<BillingModule> {
   double calculateTotalAmount() {
     double subtotal = calculateSubtotal();
     double taxAmount = calculateTaxAmount();
-    double discount = double.tryParse(discountController.text) ?? 0.0;
-    return subtotal + taxAmount - discount;
+    double discountPercentage = double.tryParse(discountController.text) ?? 0.0;
+
+    double totalBeforeDiscount = subtotal + taxAmount;
+    double discountAmount = (discountPercentage / 100) * totalBeforeDiscount;
+
+    return totalBeforeDiscount - discountAmount;
+  }
+  String generateSerialNumber(int number) {
+    String serialNumber = number.toString().padLeft(4, '0');
+    return 'MS$serialNumber';
   }
 
   @override
@@ -478,8 +491,62 @@ class _BillingModuleState extends State<BillingModule> {
                 width: 250,
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: _generateBill,
-                  child: Text('Generate Invoice/Receipt'),
+                  onPressed: () async {
+                    final billGenerator = BillGenerator();
+                    billGenerator.generateBill(
+                      context: context,
+                      customerNameController: customerNameController,
+                      customerAddressController: customerAddressController,
+                      customerContactController: customerContactController,
+                      invoiceNumberController: invoiceNumberController,
+                      dateController: dateController,
+                      dueDateController: dueDateController,
+                      paymentTermsController: paymentTermsController,
+                      paymentMethodController: paymentMethodController,
+                      descriptionController: descriptionController,
+                      itemDescriptionController: itemDescriptionController,
+                      quantityController: quantityController,
+                      unitPriceController: unitPriceController,
+                      taxRateController: taxRateController,
+                      discountController: discountController,
+                      calculateSubtotal: calculateSubtotal,
+                      calculateTotalAmount: calculateTotalAmount,
+                    );
+                    // Generate a unique serial number
+                    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                        .collection('InvoiceData')
+                        .orderBy('invoiceNumber', descending: true)
+                        .limit(1)
+                        .get();
+                    int serialNumber = 1;
+                    if (querySnapshot.docs.isNotEmpty) {
+                      String lastInvoiceNumber =
+                      querySnapshot.docs.first.get('invoiceNumber');
+                      serialNumber = int.parse(lastInvoiceNumber.substring(2)) + 1;
+                    }
+                    String formattedInvoiceNumber = generateSerialNumber(serialNumber);
+                    final invoiceData = {
+                      'customerName': customerNameController.text,
+                      'customerAddress': customerAddressController.text,
+                      'customerContact': customerContactController.text,
+                      'invoiceNumber': formattedInvoiceNumber,
+                      'date': dateController.text,
+                      'dueDate': dueDateController.text,
+                      'paymentTerms': paymentTermsController.text,
+                      'paymentMethod': paymentMethodController.text,
+                      'description': descriptionController.text,
+                      'itemDescription': itemDescriptionController.text,
+                      'quantity': quantityController.text,
+                      'unitPrice': unitPriceController.text,
+                      'taxRate': taxRateController.text,
+                      'discount': discountController.text,
+                      'subtotal': calculateSubtotal().toStringAsFixed(2),
+                      'totalAmount': calculateTotalAmount().toStringAsFixed(2),
+                    };
+
+                    await FirebaseHandler.storeInvoiceData(invoiceData);
+                  },
+                    child: Text('Generate Invoice/Receipt'),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green[400],
                     shape: RoundedRectangleBorder(
