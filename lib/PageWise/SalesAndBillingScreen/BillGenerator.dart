@@ -42,18 +42,37 @@ class BillGenerator {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                Text('Invoice/Receipt Number: ${invoiceNumberController.text}'),
                 Text('Customer Name: ${customerNameController.text}'),
                 //Text('Customer Address: ${customerAddressController.text}'),
                 Text('Customer Contact: ${customerContactController.text}'),
-                Text('Invoice/Receipt Number: ${invoiceNumberController.text}'),
-                Text('Date: ${dateController.text}'),
-                Text('Due Date: ${dueDateController.text}'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Date: ${dateController.text}'),
+                    SizedBox(width: 5),
+                    Text('Due Date: ${dueDateController.text}'),
+                  ],
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                          width: 80,
+                          child: Text('Item Description: \n${itemDescriptionController.text}')),
+                    ),
+                    Text('Unit Price: \n${unitPriceController.text}'),
+                    Text('Quantity: \n${quantityController.text}'),
+
+                  ],
+                ),
+
+
                 // Text('Payment Terms: ${paymentTermsController.text}'),
                 Text('Payment Method: ${paymentMethodController.text}'),
                 Text('Description: ${descriptionController.text}'),
-                //Text('Item Description: \n${itemDescriptionController.text}'),
-                Text('Quantity: \n${quantityController.text}'),
-                Text('Unit Price: \n${unitPriceController.text}'),
                 Text('Tax Rate: \Rs ${taxRateController.text}'),
                 Text('Discount: \Rs ${discountController.text}'),
                 SizedBox(height: 10),
