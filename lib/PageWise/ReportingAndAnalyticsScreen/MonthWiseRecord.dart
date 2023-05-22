@@ -1,20 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'FirebaseInvoice.dart';
 
-class InvoiceListPage extends StatefulWidget {
+class MonthWiseReport extends StatefulWidget {
   @override
-  _InvoiceListPageState createState() => _InvoiceListPageState();
+  _MonthWiseReportState createState() => _MonthWiseReportState();
 }
 
-class _InvoiceListPageState extends State<InvoiceListPage> {
+class _MonthWiseReportState extends State<MonthWiseReport> {
   List<Map<String, dynamic>> invoiceDataList = [];
-  DateTime selectedDate = DateTime.now().toLocal();
-  double grandTotal = 0.0; // Added grandTotal variable
+  List<Map<String, dynamic>> displayedInvoiceData = [];
+  DateTime selectedFromDate = DateTime.now().toLocal();
+  DateTime selectedToDate = DateTime.now().toLocal();
+  double grandTotal = 0.0;
 
   @override
   void initState() {
     super.initState();
-    selectedDate = DateTime.now().toLocal(); // Set selectedDate to current date
     loadInvoiceData();
   }
 
@@ -23,55 +25,46 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
     invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
     invoiceDataList.sort((a, b) => a['date'].compareTo(b['date']));
     setState(() {
-      selectedDate = DateTime.now().toLocal(); // Set selectedDate to current date
+      selectedFromDate = DateTime.now().toLocal();
+      selectedToDate = DateTime.now().toLocal();
+      displayedInvoiceData = invoiceDataList;
     });
   }
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, String dateType) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: dateType == 'from' ? selectedFromDate : selectedToDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
 
-    if (picked != null && picked != selectedDate) {
+    if (picked != null) {
       setState(() {
-        selectedDate = picked;
-        if (getFilteredInvoiceData(selectedDate, invoiceDataList).isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('No Records Found'),
-                content: Text("Sorry, there are no records for the selected date."),
-                actions: <Widget>[
-                  ElevatedButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
+        if (dateType == 'from') {
+          selectedFromDate = picked;
+        } else {
+          selectedToDate = picked;
         }
       });
     }
   }
 
-  List<Map<String, dynamic>> getFilteredInvoiceData(
-      DateTime? selectedDate, List<Map<String, dynamic>> invoiceDataList) {
-    if (selectedDate == null) {
-      return invoiceDataList;
-    } else {
-      final selectedDateString = selectedDate.toLocal().toString().split(' ')[0];
-      List<Map<String, dynamic>> filteredList = invoiceDataList
-          .where((invoice) => invoice['date'].toString().split(' ')[0] == selectedDateString)
-          .toList();
-      return filteredList;
-    }
+  void getFilteredInvoiceData(DateTime fromDate, DateTime toDate) {
+    final filteredList = invoiceDataList.where((invoice) {
+      final dynamic invoiceDate = invoice['date'];
+      if (invoiceDate is String) {
+        final DateTime convertedDate = DateTime.parse(invoiceDate);
+        return convertedDate.isAfter(fromDate) && convertedDate.isBefore(toDate);
+      } else if (invoiceDate is Timestamp) {
+        return invoiceDate.toDate().isAfter(fromDate) && invoiceDate.toDate().isBefore(toDate);
+      }
+      return false;
+    }).toList();
+
+    setState(() {
+      displayedInvoiceData = filteredList;
+    });
   }
 
   void _showUserInfoDialog(BuildContext context, Map<String, dynamic> invoiceData) {
@@ -131,20 +124,14 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredInvoiceData = getFilteredInvoiceData(selectedDate, invoiceDataList);
-    final filteredGrandTotal = filteredInvoiceData.fold(
+    final filteredGrandTotal = displayedInvoiceData.fold(
         0.0,
         (total, invoice) =>
             total + double.parse(invoice['totalAmount'] ?? '0.0'));
 
-    final Map<String, dynamic> result = {
-      'totalInvoices': filteredInvoiceData.length,
-      'grandTotal': filteredGrandTotal,
-    };
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Invoice List'),
+        title: Text('Month Wise Report'),
       ),
       body: Column(
         children: [
@@ -154,32 +141,50 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  selectedDate == null
-                      ? 'All Invoices'
-                      : 'Invoices for ${selectedDate.toString().split(' ')[0]}',
+                  'Month wise details',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
                   ),
                 ),
-                TextButton(
-                  child: Text(
-                    'Select Date',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.date_range),
+                      onPressed: () => _selectDate(context, 'from'),
                     ),
-                  ),
-                  onPressed: () => _selectDate(context),
+                    Text(
+                      'From: ${selectedFromDate.toString().split(' ')[0]}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.date_range),
+                      onPressed: () => _selectDate(context, 'to'),
+                    ),
+                    Text(
+                      'To: ${selectedToDate.toString().split(' ')[0]}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ElevatedButton(
+                      child: Text('Search'),
+                      onPressed: () {
+                        getFilteredInvoiceData(selectedFromDate, selectedToDate);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: filteredInvoiceData.length,
+              itemCount: displayedInvoiceData.length,
               itemBuilder: (context, index) {
-                final invoiceData = filteredInvoiceData[index];
+                final invoiceData = displayedInvoiceData[index];
                 final seriesNumber = index + 1;
 
                 return ListTile(
