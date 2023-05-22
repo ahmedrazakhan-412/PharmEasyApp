@@ -8,7 +8,10 @@ class DailyReportPage extends StatefulWidget {
   _DailyReportPageState createState() => _DailyReportPageState();
 }
 
-class _DailyReportPageState extends State<DailyReportPage> {
+class _DailyReportPageState extends State<DailyReportPage> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   Future<List<Map<String, dynamic>>> loadInvoiceData() async {
     final List<Object?> fetchedData = await FirebaseHandler.getAllInvoiceData();
     List<Map<String, dynamic>> invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
@@ -23,6 +26,23 @@ class _DailyReportPageState extends State<DailyReportPage> {
     }).toList();
 
     return filteredList;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,25 +79,37 @@ class _DailyReportPageState extends State<DailyReportPage> {
             List<Map<String, dynamic>> filteredList = snapshot.data ?? [];
 
             int totalInvoices = filteredList.length;
-            double grandTotal = filteredList.fold(0.0, (sum, invoice) => sum + invoice['totalAmount']);
+            double grandTotal = filteredList.fold(0.0, (sum, invoice) => sum + double.parse(invoice['totalAmount']));
 
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'No of Invoices: $totalInvoices',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Total Amount: $grandTotal',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      int animatedTotalInvoices = (totalInvoices * _animation.value).toInt();
+                      double animatedGrandTotal = grandTotal * _animation.value;
+
+                      return Column(
+                        children: [
+                          Text(
+                            'No of Invoices: $animatedTotalInvoices',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Total Amount: \Rs.${animatedGrandTotal.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
