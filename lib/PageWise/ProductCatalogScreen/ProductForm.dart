@@ -68,7 +68,8 @@ class _ProductFormState extends State<ProductForm> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(fieldName),
-          content: Text(fieldDescriptions[fieldName] ?? 'No information available.'),
+          content: Text(
+              fieldDescriptions[fieldName] ?? 'No information available.'),
           actions: [
             ElevatedButton(
               onPressed: () {
@@ -166,6 +167,5 @@ class _ProductFormState extends State<ProductForm> {
         ),
       ],
     );
- }
-
+  }
 }
