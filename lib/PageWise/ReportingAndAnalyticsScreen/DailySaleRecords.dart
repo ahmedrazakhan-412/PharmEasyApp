@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'FirebaseInvoice.dart';
 
 class InvoiceListPage extends StatefulWidget {
-  final DateTime selectedDate;
+  final DateTime selectedDate; // Added selectedDate variable
 
-  const InvoiceListPage({
-    required this.selectedDate,
-  });
+  const InvoiceListPage({Key? key, required this.selectedDate}) : super(key: key);
 
   @override
   _InvoiceListPageState createState() => _InvoiceListPageState();
@@ -25,19 +23,7 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
     final List<Object?> fetchedData = await FirebaseHandler.getAllInvoiceData();
     invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
     invoiceDataList.sort((a, b) => a['date'].compareTo(b['date']));
-  }
-
-  List<Map<String, dynamic>> getFilteredInvoiceData(
-      DateTime? selectedDate, List<Map<String, dynamic>> invoiceDataList) {
-    if (selectedDate == null) {
-      return invoiceDataList;
-    } else {
-      final selectedDateString = selectedDate.toLocal().toString().split(' ')[0];
-      List<Map<String, dynamic>> filteredList = invoiceDataList
-          .where((invoice) => invoice['date'].toString().split(' ')[0] == selectedDateString)
-          .toList();
-      return filteredList;
-    }
+    setState(() {}); // Notify the widget to rebuild after data is loaded
   }
 
   void _showUserInfoDialog(BuildContext context, Map<String, dynamic> invoiceData) {
@@ -94,10 +80,16 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
       },
     );
   }
-
-  @override
+ @override
   Widget build(BuildContext context) {
-  List<Map<String, dynamic>> filteredInvoiceData = getFilteredInvoiceData(widget.selectedDate, invoiceDataList);
+    List<Map<String, dynamic>> filteredInvoiceData = invoiceDataList
+        .where((invoice) {
+          DateTime invoiceDate = DateTime.parse(invoice['date']);
+          return invoiceDate.year == widget.selectedDate.year &&
+              invoiceDate.month == widget.selectedDate.month &&
+              invoiceDate.day == widget.selectedDate.day;
+        })
+        .toList();
 
     return Scaffold(
       appBar: AppBar(

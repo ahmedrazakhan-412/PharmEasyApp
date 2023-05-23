@@ -31,6 +31,30 @@ class _DailyReportPageState extends State<DailyReportPage>
     return filteredList;
   }
 
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = DateTime.now().toLocal(); // Initialize selectedDate with current date
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void onDateSelected(DateTime date) {
+    setState(() {
+      selectedDate = date;
+    });
+  }
+
   void showNoRecordsDialog() {
     showDialog(
       context: context,
@@ -49,23 +73,6 @@ class _DailyReportPageState extends State<DailyReportPage>
         );
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
-    _animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 
   @override
@@ -102,94 +109,102 @@ class _DailyReportPageState extends State<DailyReportPage>
             List<Map<String, dynamic>> filteredList = snapshot.data ?? [];
 
             if (filteredList.isEmpty) {
-              showNoRecordsDialog();
-              return Container(); // Return an empty container when there are no records
+              showNoRecordsDialog(); // Show dialog when no records are found
             }
 
             int totalInvoices = filteredList.length;
-            double grandTotal = filteredList.fold(
-                0.0, (sum, invoice) => sum + double.parse(invoice['totalAmount']));
+            double grandTotal =
+                filteredList.fold(0.0, (sum, invoice) => sum + double.parse(invoice['totalAmount']));
 
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedBuilder(
-                    animation: _animation,
-                    builder: (context, child) {
-                      int animatedTotalInvoices =
-                          (totalInvoices * _animation.value).toInt();
-                      double animatedGrandTotal = grandTotal * _animation.value;
+            return Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Positioned(
+                  top: 20.0,
+                  child: TextButton(
+                    onPressed: () async {
+                      final DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: selectedDate,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime.now(),
+                      );
 
-                      return Column(
-                        children: [
-                          Text(
-                            'No of Invoices: $animatedTotalInvoices',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Total Amount: \Rs.${animatedGrandTotal.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      );
+                      if (pickedDate != null) {
+                        onDateSelected(pickedDate);
+                      }
                     },
-                  ),
-                  SizedBox(height: 20),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                InvoiceListPage(selectedDate: selectedDate)),
-                      );
-                    },
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.greenAccent.shade200,
-                            Colors.teal.shade300
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.details,
-                            size: 40.0,
-                            color: Colors.black,
-                          ),
-                          SizedBox(height: 12.0),
-                          Text(
-                            'Details',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white70,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
+                    child: Text(
+                      'Select Date',
+                      style: TextStyle(fontSize: 16.0),
                     ),
                   ),
-                ],
-              ),
+                ),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AnimatedBuilder(
+                        animation: _animation,
+                        builder: (context, child) {
+                          int animatedTotalInvoices =
+                              (totalInvoices * _animation.value).toInt();
+                          double animatedGrandTotal =
+                              grandTotal * _animation.value;
+
+                          return Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.greenAccent.shade200,
+                                  Colors.teal.shade300
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            padding: EdgeInsets.all(12.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'No of Invoices: $animatedTotalInvoices',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 12.0),
+                                Text(
+                                  'Total Amount: ₹${animatedGrandTotal.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InvoiceListPage(selectedDate: selectedDate),
+                            ),
+                          );
+                        },
+                        child: Text('Details'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             );
           }
         },
