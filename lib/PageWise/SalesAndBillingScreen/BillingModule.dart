@@ -485,7 +485,7 @@ class _BillingModuleState extends State<BillingModule> {
                       height: 80,
                       child: TextFormField(
                         // controller: invoiceNumberController,
-                        decoration: InputDecoration(labelText: ': \n ${calculateSubtotal().toStringAsFixed(2)}',
+                        decoration: InputDecoration(labelText: ' \n ${calculateSubtotal().toStringAsFixed(2)}',
                         ),
                         enabled: false,
                       ),

@@ -134,10 +134,47 @@ class _MonthWiseReportState extends State<MonthWiseReport> {
       ),
       body: Column(
         children: [
-          Container(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.date_range),
+                  onPressed: () => _selectDate(context, 'from'),
+                ),
+                Text(
+                  'From: ${selectedFromDate.toString().split(' ')[0]}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.date_range),
+                  onPressed: () => _selectDate(context, 'to'),
+                ),
+                Text(
+                  'To: ${selectedToDate.toString().split(' ')[0]}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  child: Text('Search'),
+                  onPressed: () {
+                    getFilteredInvoiceData(selectedFromDate, selectedToDate);
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   'Month wise details',
@@ -145,36 +182,6 @@ class _MonthWiseReportState extends State<MonthWiseReport> {
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
                   ),
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () => _selectDate(context, 'from'),
-                    ),
-                    Text(
-                      'From: ${selectedFromDate.toString().split(' ')[0]}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.date_range),
-                      onPressed: () => _selectDate(context, 'to'),
-                    ),
-                    Text(
-                      'To: ${selectedToDate.toString().split(' ')[0]}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    ElevatedButton(
-                      child: Text('Search'),
-                      onPressed: () {
-                        getFilteredInvoiceData(selectedFromDate, selectedToDate);
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),

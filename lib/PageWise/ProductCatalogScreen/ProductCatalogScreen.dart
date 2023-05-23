@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medicalstore/Dashboard/DashboardScreen.dart';
+import 'package:medicalstore/PageWise/UserRegistrationScreen/UserRegistrationData.dart';
+
+import 'ProductForm.dart';
 
 class ProductCatalogScreen extends StatelessWidget {
   @override
@@ -23,7 +26,30 @@ class ProductCatalogScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Text('Product Catalog Screen'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserRegistrationData()),
+                );
+              },
+              child: Text('Product Details'),
+            ),
+            SizedBox(height: 16), // Add some spacing between the buttons
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductForm()),
+                );
+              },
+              child: Text('Add Product'),
+            ),
+          ],
+        ),
       ),
     );
   }
