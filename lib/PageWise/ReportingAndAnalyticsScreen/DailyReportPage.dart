@@ -8,24 +8,47 @@ class DailyReportPage extends StatefulWidget {
   _DailyReportPageState createState() => _DailyReportPageState();
 }
 
-class _DailyReportPageState extends State<DailyReportPage> with SingleTickerProviderStateMixin {
+class _DailyReportPageState extends State<DailyReportPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  late DateTime selectedDate; // Added selectedDate variable
 
   Future<List<Map<String, dynamic>>> loadInvoiceData() async {
-    final List<Object?> fetchedData = await FirebaseHandler.getAllInvoiceData();
-    List<Map<String, dynamic>> invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
+    final List<Object?> fetchedData =
+        await FirebaseHandler.getAllInvoiceData();
+    List<Map<String, dynamic>> invoiceDataList =
+        fetchedData.cast<Map<String, dynamic>>();
     invoiceDataList.sort((a, b) => a['date'].compareTo(b['date']));
 
-    DateTime currentDate = DateTime.now().toLocal();
     List<Map<String, dynamic>> filteredList = invoiceDataList.where((invoice) {
       DateTime invoiceDate = DateTime.parse(invoice['date']);
-      return invoiceDate.year == currentDate.year &&
-          invoiceDate.month == currentDate.month &&
-          invoiceDate.day == currentDate.day;
+      return invoiceDate.year == selectedDate.year &&
+          invoiceDate.month == selectedDate.month &&
+          invoiceDate.day == selectedDate.day;
     }).toList();
 
     return filteredList;
+  }
+
+  void showNoRecordsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('No Records Found'),
+          content: Text("Sorry, there are no records for the selected date."),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -78,8 +101,14 @@ class _DailyReportPageState extends State<DailyReportPage> with SingleTickerProv
           } else {
             List<Map<String, dynamic>> filteredList = snapshot.data ?? [];
 
+            if (filteredList.isEmpty) {
+              showNoRecordsDialog();
+              return Container(); // Return an empty container when there are no records
+            }
+
             int totalInvoices = filteredList.length;
-            double grandTotal = filteredList.fold(0.0, (sum, invoice) => sum + double.parse(invoice['totalAmount']));
+            double grandTotal = filteredList.fold(
+                0.0, (sum, invoice) => sum + double.parse(invoice['totalAmount']));
 
             return Center(
               child: Column(
@@ -88,7 +117,8 @@ class _DailyReportPageState extends State<DailyReportPage> with SingleTickerProv
                   AnimatedBuilder(
                     animation: _animation,
                     builder: (context, child) {
-                      int animatedTotalInvoices = (totalInvoices * _animation.value).toInt();
+                      int animatedTotalInvoices =
+                          (totalInvoices * _animation.value).toInt();
                       double animatedGrandTotal = grandTotal * _animation.value;
 
                       return Column(
@@ -112,14 +142,51 @@ class _DailyReportPageState extends State<DailyReportPage> with SingleTickerProv
                     },
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
+                  InkWell(
+                    onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => InvoiceListPage()),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                InvoiceListPage(selectedDate: selectedDate)),
                       );
                     },
-                    child: Text('Details'),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.greenAccent.shade200,
+                            Colors.teal.shade300
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.details,
+                            size: 40.0,
+                            color: Colors.black,
+                          ),
+                          SizedBox(height: 12.0),
+                          Text(
+                            'Details',
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white70,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

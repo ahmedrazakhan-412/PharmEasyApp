@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'FirebaseInvoice.dart';
 
 class InvoiceListPage extends StatefulWidget {
+  final DateTime selectedDate;
+
+  const InvoiceListPage({
+    required this.selectedDate,
+  });
+
   @override
   _InvoiceListPageState createState() => _InvoiceListPageState();
 }
 
 class _InvoiceListPageState extends State<InvoiceListPage> {
   List<Map<String, dynamic>> invoiceDataList = [];
-  DateTime selectedDate = DateTime.now().toLocal();
-  double grandTotal = 0.0; // Added grandTotal variable
 
   @override
   void initState() {
     super.initState();
-    selectedDate = DateTime.now().toLocal(); // Set selectedDate to current date
     loadInvoiceData();
   }
 
@@ -22,43 +25,6 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
     final List<Object?> fetchedData = await FirebaseHandler.getAllInvoiceData();
     invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
     invoiceDataList.sort((a, b) => a['date'].compareTo(b['date']));
-    setState(() {
-      selectedDate = DateTime.now().toLocal(); // Set selectedDate to current date
-    });
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        if (getFilteredInvoiceData(selectedDate, invoiceDataList).isEmpty) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('No Records Found'),
-                content: Text("Sorry, there are no records for the selected date."),
-                actions: <Widget>[
-                  ElevatedButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      });
-    }
   }
 
   List<Map<String, dynamic>> getFilteredInvoiceData(
@@ -131,16 +97,7 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredInvoiceData = getFilteredInvoiceData(selectedDate, invoiceDataList);
-    final filteredGrandTotal = filteredInvoiceData.fold(
-        0.0,
-        (total, invoice) =>
-            total + double.parse(invoice['totalAmount'] ?? '0.0'));
-
-    final Map<String, dynamic> result = {
-      'totalInvoices': filteredInvoiceData.length,
-      'grandTotal': filteredGrandTotal,
-    };
+  List<Map<String, dynamic>> filteredInvoiceData = getFilteredInvoiceData(widget.selectedDate, invoiceDataList);
 
     return Scaffold(
       appBar: AppBar(
@@ -154,23 +111,11 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  selectedDate == null
-                      ? 'All Invoices'
-                      : 'Invoices for ${selectedDate.toString().split(' ')[0]}',
+                  'Invoices for ${widget.selectedDate.toString().split(' ')[0]}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
                   ),
-                ),
-                TextButton(
-                  child: Text(
-                    'Select Date',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () => _selectDate(context),
                 ),
               ],
             ),
@@ -216,16 +161,6 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
                   ),
                 );
               },
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'Grand Total: $filteredGrandTotal',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              ),
             ),
           ),
         ],

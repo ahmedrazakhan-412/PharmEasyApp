@@ -12,7 +12,6 @@ class _MonthWiseReportState extends State<MonthWiseReport> {
   List<Map<String, dynamic>> displayedInvoiceData = [];
   DateTime selectedFromDate = DateTime.now().toLocal();
   DateTime selectedToDate = DateTime.now().toLocal();
-  double grandTotal = 0.0;
 
   @override
   void initState() {
@@ -21,10 +20,10 @@ class _MonthWiseReportState extends State<MonthWiseReport> {
   }
 
   Future<void> loadInvoiceData() async {
-    final List<Object?> fetchedData = await FirebaseHandler.getAllInvoiceData();
-    invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
-    invoiceDataList.sort((a, b) => a['date'].compareTo(b['date']));
+    final fetchedData = await FirebaseHandler.getAllInvoiceData();
     setState(() {
+      invoiceDataList = fetchedData.cast<Map<String, dynamic>>();
+      invoiceDataList.sort((a, b) => a['date'].compareTo(b['date']));
       selectedFromDate = DateTime.now().toLocal();
       selectedToDate = DateTime.now().toLocal();
       displayedInvoiceData = invoiceDataList;
@@ -64,6 +63,11 @@ class _MonthWiseReportState extends State<MonthWiseReport> {
 
     setState(() {
       displayedInvoiceData = filteredList;
+
+      final filteredGrandTotal = displayedInvoiceData.fold(
+        0.0,
+        (total, invoice) => total + (double.parse(invoice['totalAmount'] ?? '0.0')),
+      );
     });
   }
 
@@ -124,11 +128,6 @@ class _MonthWiseReportState extends State<MonthWiseReport> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredGrandTotal = displayedInvoiceData.fold(
-        0.0,
-        (total, invoice) =>
-            total + double.parse(invoice['totalAmount'] ?? '0.0'));
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Month Wise Report'),
@@ -226,7 +225,10 @@ class _MonthWiseReportState extends State<MonthWiseReport> {
           Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
-              'Grand Total: $filteredGrandTotal',
+              'Grand Total: ${displayedInvoiceData.fold(
+                0.0,
+                (total, invoice) => total + (double.parse(invoice['totalAmount'] ?? '0.0')),
+              )}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24.0,
